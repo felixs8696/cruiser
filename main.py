@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 
 import utils
+from pid import PID
 
 ALLOWABLE_ERROR = 1e-6
 
@@ -55,6 +56,8 @@ weights = np.array([[m_human/4., m_human/4.], [m_human/4., m_human/4.]])
 print(f'Human force: {m_human * g_a}')
 
 fig, ax = plt.subplots(1)
+
+pid_ctrl = PID(p=1.2, i=0, d=0)
 
 for i in range(20):
 	ax.plot(0,0,'ok') #<-- plot a black point at the origin
