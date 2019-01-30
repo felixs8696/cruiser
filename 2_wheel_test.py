@@ -87,14 +87,6 @@ while play:
             if event.key == K_RIGHT:
                 d = 0
 
-        # if up:
-        #     if event.key == K_UP or event.key == K_DOWN:
-        #         board.move_target_ang_vel_to_zero()
-        #         print("move target ang vel to zero")
-        #     if event.key == K_LEFT or event.key == K_RIGHT:
-        #         board.move_target_diff_ang_vel_to_zero()
-        #         print("move target diff vel to zero")
-
     screen.fill(BG)
 
     print(f"x: {x}")
@@ -115,19 +107,15 @@ while play:
         board.decrease_target_diff_ang_vel()
 
     board.move_wheels_towards_targets()
-    delta_x, delta_y, delta_theta = board.change_in_position()
+    dx, dy, dtheta = board.change_in_position()
 
-    # board.position[0] += delta_x * math.cos(board.theta)
-    # board.position[1] += delta_y * math.sin(board.theta)
-    # board.theta += delta_theta
+    board.position[0] += dx
+    board.position[1] += dy
+    board.theta += dtheta
 
-    board.position[0] += delta_x
-    board.position[1] += delta_y
-    board.theta += delta_theta
-
-    # print(f"Board position x diff: {delta_x * math.cos(board.theta)}")
-    # print(f"Board position y diff: {delta_y * math.sin(board.theta)}")
-    # print(f"Board position theta diff: {delta_theta}")
+    # print(f"Board position x diff: {dx * math.cos(board.theta)}")
+    # print(f"Board position y diff: {dy * math.sin(board.theta)}")
+    # print(f"Board position theta diff: {dtheta}")
 
     # make sure the car doesn't exit the screen
     if board.position[1] < 0:
@@ -150,102 +138,3 @@ while play:
     pygame.display.flip()
 
 sys.exit(0) # quit the game
-
-# import utils
-# import cruiser
-
-# # Constants in human readable units
-# # max_speed_mi_ph = 20 # miles per hour (boosted board max speed)
-# # wheel_diameter_cm = 5.5 # cm
-# # 0_to_max_vel_time_s = 4 # s
-
-# # # Converted units better for computer and metric system
-# # max_speed_me_ph = utils.mi_ph_to_me_ps(max_speed_mi_ph) # meters per sec
-# # max_angular_velocity_rad_ps = utils.wheel_diam_cm_to_rad_ps(wheel_diameter_cm, max_speed_me_ph) # rad / s
-# # ang_accel_rad_ps2 = max_angular_velocity / 0_to_max_vel_time_s # rad / s^2
-
-# # # Initial wheel angular velocities
-# # L_ang_vel, R_ang_vel = 0, 0
-# # Max forward: max(w) = max_angular_velocity_rad_ps
-# # Max backward: min(w) = -max_angular_velocity_rad_ps
-# # left: max_angular_velocity_rad_ps, right: -max_angular_velocity_rad_ps
-# # Max right turn: max(d) = 2 * max_angular_velocity_rad_ps
-# # left: -max_angular_velocity_rad_ps, right: max_angular_velocity_rad_ps
-# # Max left turn: min(d) = -2 * max_angular_velocity_rad_ps
-# # w, d = 0, 0
-# L_wheel = ("left", (-12, 0))
-# R_wheel = ("right", (12, 0))
-
-# board = cruiser.TwoWheelBoard(l_board=80, w_board=24,
-#                       max_speed_mi_ph=20, wheel_diameter_cm=5.5, zero_to_max_vel_time_s=4,
-#                       wheel_tuples=[L_wheel, R_wheel])
-
-# if down:
-#     if event.key == K_UP:
-#         cruiser.increase_target_ang_vel()
-#     if event.key == K_DOWN:
-#         cruiser.decrease_target_ang_vel()
-#     if event.key == K_LEFT:
-#         cruiser.increase_target_diff_ang_vel()
-#     if event.key == K_RIGHT:
-#         cruiser.decrease_target_diff_ang_vel()
-
-# while play:
-#     clock.tick(30)
-#     for event in pygame.event.get():
-
-#         if not hasattr(event, 'key'):
-#             continue
-
-#         # Quit game
-#         if event.key == K_ESCAPE:
-#             play = False
-
-#         down = event.type == KEYDOWN
-#         up = event.type == KEYUP
-
-#         # Release key
-#         # All up
-#             # move max wheel in terms of vel. magnitude toward min wheel vel.
-#             # Move both wheels towards 0 together
-#         # S up + E down
-#         # S up + W down
-#         # N up + E down
-#         # N up + W down
-#         # S down + E up
-#         # S down + W up
-#         # N down + E up
-#         # N down + W up
-#             # move min wheel in terms of vel. magnitude toward max wheel vel.
-#         if down:
-
-#         if up:
-#             L_ang_accel *= -1
-#             R_ang_accel *= -1
-
-#         # Determine angular accelerations to speed up and/or turn
-#         if event.key == K_UP:
-#             L_ang_accel, R_ang_accel = ang_accel_rad_ps2, ang_accel_rad_ps2
-#         if event.key == K_DOWN:
-#             L_ang_accel, R_ang_accel = -ang_accel_rad_ps2, -ang_accel_rad_ps2
-#         if event.key == K_LEFT:
-#             L_ang_accel, R_ang_accel = -ang_accel_rad_ps2, ang_accel_rad_ps2
-#         if event.key == K_RIGHT:
-#             L_ang_accel, R_ang_accel = ang_accel_rad_ps2, -ang_accel_rad_ps2
-    
-#     # Limit wheels to max angular velocities
-#     if abs(L_ang_vel) < max_angular_velocity_rad_ps:
-#         L_ang_vel += L_ang_accel
-#     else:
-#         if L_ang_vel <= -max_angular_velocity_rad_ps:
-#             L_ang_vel = -max_angular_velocity_rad_ps:
-#         if L_ang_vel >= max_angular_velocity_rad_ps:
-#             L_ang_vel = max_angular_velocity_rad_ps:
-
-#     if abs(R_ang_vel) < max_angular_velocity_rad_ps:
-#         R_ang_vel += R_ang_accel
-#     else:
-#         if R_ang_vel <= -max_angular_velocity_rad_ps:
-#             R_ang_vel = -max_angular_velocity_rad_ps:
-#         if R_ang_vel >= max_angular_velocity_rad_ps:
-#             R_ang_vel = max_angular_velocity_rad_ps:
