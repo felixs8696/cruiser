@@ -221,48 +221,14 @@ class TwoWheelBoard(Board):
         L_wheel_loc, R_wheel_loc = self.get_wheel_locs()
         x, y = R_wheel_loc[0] - L_wheel_loc[0], R_wheel_loc[1] - L_wheel_loc[1]
         d = utils.hypotenuse(x, y) # distance_betwee_wheels
-        # R_arc = utils.ang_vel_rad_ps_to_lin_vel_me_ps(R_wheel.curr_ang_vel, R_wheel.wheel_diameter_cm)
-        # L_arc = utils.ang_vel_rad_ps_to_lin_vel_me_ps(L_wheel.curr_ang_vel, L_wheel.wheel_diameter_cm)
-        # delta_theta = (R_arc - L_arc) / d
 
-        # delta_x, delta_y = 0, R_arc
-
-        # if delta_theta != 0:
-        #     L_radius = utils.arc_cm_angle_rad_to_radius_cm(L_arc, delta_theta)
-        #     mid_radius = d/2. + L_radius
-        #     origin_translation_magnitude = utils.chord_from_radius_cm_and_angle_rad(mid_radius, delta_theta)
-        #     origin_theta = utils.base_angles_of_isosceles_triangle_rad(delta_theta)
-        #     delta_x, delta_y = utils.vec_2D_to_components(origin_translation_magnitude, origin_theta)
-
-        # print(f"Delta X: {delta_x}")
-        # print(f"Delta Y: {delta_y}")
-        # print(f"Delta Theta: {delta_theta}")
-        # return delta_x, delta_y, delta_theta
         dtheta = -(L_wheel.curr_ang_vel - R_wheel.curr_ang_vel) / d
         dtheta_dt = dtheta * self.dt
+        
         dx = ((L_wheel.curr_ang_vel + R_wheel.curr_ang_vel) / 2) * math.sin(self.theta + (dtheta_dt / 2))
         dy = ((L_wheel.curr_ang_vel + R_wheel.curr_ang_vel) / 2) * math.cos(self.theta + (dtheta_dt / 2))
 
         dx_dt = dx * self.dt
         dy_dt = dy * self.dt
-        # dtheta_dt = dtheta * self.dt
 
         return dx_dt, dy_dt, dtheta_dt
-
-    def set_position(new_pos):
-        self.position = new_pos
-
-        # diff_ang_vel = R_wheel.curr_ang_vel - L_wheel.curr_ang_vel
-        # x, y = R_wheel_loc - L_wheel_loc
-        # body_rotation_radius = utils.hypotenuse(x, y)
-        # body_rotation_circum = utils.radius_to_circum(body_rotation_radius)
-        # arc = utils.ang_vel_rad_ps_to_lin_vel_me_ps(diff_ang_vel)
-        # rotation_deg = utils.circum_ratio_to_angle_deg(arc / body_rotation_circum)
-
-        # translation_m = 
-        # offset_m
-
-        # if rotation_rad_ps > 0: # Rotate left (left wheel origin)
-
-        # if rotation_rad_ps < 0: # Rotate right (right wheel origin)
-
