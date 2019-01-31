@@ -10,7 +10,7 @@ L_wheel = ("left", (-12, 0))
 R_wheel = ("right", (12, 0))
 
 board = cruiser.TwoWheelBoard(position=[350, 500], theta=0, l_board=80, w_board=24,
-                              max_speed_mi_ph=10, wheel_diameter_cm=5.5, zero_to_max_vel_time_s=20, dt=0.01,
+                              max_speed_mi_ph=20, wheel_diameter_cm=5.5, zero_to_max_vel_time_dt=20, dt=0.01,
                               wheel_tuples=[L_wheel, R_wheel])
 
 BG= (0,0,0)
@@ -41,7 +41,7 @@ def gradient_surface(size, startcolor, endcolor):
     return pygame.transform.scale(bigSurf, size)
 
 screen = pygame.display.set_mode((MAX_X, MAX_Y))
-car = gradient_surface((10, 20), (255, 0, 255, 255), (0, 255, 255, 255))
+car = gradient_surface((10, 33), (255, 0, 255, 255), (0, 255, 255, 255))
 
 clock = pygame.time.Clock() # load clock
 k_up = k_down = k_left = k_right = 0 # init key values
